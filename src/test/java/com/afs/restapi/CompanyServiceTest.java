@@ -10,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -41,6 +43,20 @@ public class CompanyServiceTest {
 
         //then
         assertEquals(company.getId(), companyResponse.getId());
-        assertEquals("Fully Booked", companyResponse.getName());
+        assertEquals(company.getName(), companyResponse.getName());
+    }
+
+    @Test
+    void should_return_company_when_findById_given_company_service_and_company_id() {
+        //given
+        Company company = new Company(1L, "Fully Booked");
+        when(mockedCompanyJpaRepository.findById(company.getId())).thenReturn(Optional.of(company));
+
+        //when
+        Company companyResponse = companyService.findById(company.getId());
+
+        //then
+        assertEquals(company.getId(), companyResponse.getId());
+        assertEquals(company.getName(), companyResponse.getName());
     }
 }
