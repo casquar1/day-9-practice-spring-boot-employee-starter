@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -66,5 +68,24 @@ public class EmployeeServiceTest {
         //then
         assertEquals("Employee must be 18-65 years old", employeeCreateException.getMessage());
     }
+
+    @Test
+    void should_return_employee_when_findById_given_employee_service_and_employee_id() {
+        //given
+        Employee employee = new Employee(1L, "Kate", 23, "Female", 5000);
+        when(mockedEmployeeJpaRepository.findById(employee.getId()))
+                .thenReturn(Optional.of(employee));
+
+        //when
+        Employee employeeResponse = employeeService.findById(employee.getId());
+
+        //then
+        assertEquals(employee.getId(), employeeResponse.getId());
+        assertEquals("Kate", employeeResponse.getName());
+        assertEquals(23, employeeResponse.getAge());
+        assertEquals("Female", employeeResponse.getGender());
+        assertEquals(5000, employeeResponse.getSalary());
+    }
+
 }
 
