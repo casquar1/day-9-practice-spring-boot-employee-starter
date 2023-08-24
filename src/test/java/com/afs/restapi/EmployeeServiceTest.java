@@ -120,5 +120,26 @@ public class EmployeeServiceTest {
             return true;
         }));
     }
+
+    @Test
+    void should_not_update_employee_salary_when_update_given_employee_service_and_null_salary() {
+        //given
+        Employee employee = new Employee(1L, "Kate", 23, "Female", 5000);
+        Employee updatedEmployee = new Employee(null, "Kate", 24, "Female", null);
+        when(mockedEmployeeJpaRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
+
+        //when
+        employeeService.update(employee.getId(), updatedEmployee);
+
+        //then
+        verify(mockedEmployeeJpaRepository).save(argThat(tempEmployee -> {
+            assertEquals(employee.getSalary(), tempEmployee.getSalary());
+            assertEquals(employee.getId(), tempEmployee.getId());
+            assertEquals(employee.getName(), tempEmployee.getName());
+            assertEquals(employee.getAge(), tempEmployee.getAge());
+            assertEquals(employee.getGender(), tempEmployee.getGender());
+            return true;
+        }));
+    }
 }
 
