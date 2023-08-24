@@ -2,6 +2,8 @@ package com.afs.restapi;
 
 import com.afs.restapi.entity.Company;
 import com.afs.restapi.entity.Employee;
+import com.afs.restapi.exception.CompanyNotFoundException;
+import com.afs.restapi.exception.EmployeeNotFoundException;
 import com.afs.restapi.repository.CompanyJpaRepository;
 import com.afs.restapi.repository.EmployeeJpaRepository;
 import com.afs.restapi.service.CompanyService;
@@ -13,6 +15,7 @@ import org.mockito.Mock;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -58,5 +61,18 @@ public class CompanyServiceTest {
         //then
         assertEquals(company.getId(), companyResponse.getId());
         assertEquals(company.getName(), companyResponse.getName());
+    }
+
+    @Test
+    void should_return_companyNotFoundException_when_findById_given_company_service_and_invalid_id() {
+        //given
+        long id = 99L;
+
+        //when
+        CompanyNotFoundException companyNotFoundException = assertThrows(CompanyNotFoundException.class,
+                () -> companyService.findById(id));
+
+        //then
+        assertEquals("Company id not found", companyNotFoundException.getMessage());
     }
 }
