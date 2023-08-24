@@ -1,6 +1,7 @@
 package com.afs.restapi;
 
 import com.afs.restapi.exception.EmployeeCreateException;
+import com.afs.restapi.exception.EmployeeNotFoundException;
 import com.afs.restapi.repository.EmployeeJpaRepository;
 import com.afs.restapi.service.EmployeeService;
 import com.afs.restapi.entity.Employee;
@@ -73,8 +74,7 @@ public class EmployeeServiceTest {
     void should_return_employee_when_findById_given_employee_service_and_employee_id() {
         //given
         Employee employee = new Employee(1L, "Kate", 23, "Female", 5000);
-        when(mockedEmployeeJpaRepository.findById(employee.getId()))
-                .thenReturn(Optional.of(employee));
+        when(mockedEmployeeJpaRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
 
         //when
         Employee employeeResponse = employeeService.findById(employee.getId());
@@ -87,5 +87,17 @@ public class EmployeeServiceTest {
         assertEquals(5000, employeeResponse.getSalary());
     }
 
+    @Test
+    void should_return_EmployeeNotFoundException_when_findById_given_employee_service_and_not_existing_employee_id() {
+        //given
+        long id = 99L;
+
+        //when
+        EmployeeNotFoundException employeeNotFoundException = assertThrows(EmployeeNotFoundException.class,
+                () -> employeeService.findById(id));
+
+        //then
+        assertEquals("Employee id not found", employeeNotFoundException.getMessage());
+    }
 }
 
