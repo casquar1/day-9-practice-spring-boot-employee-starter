@@ -1,4 +1,4 @@
-package com.afs.restapi;
+package com.afs.restapi.servicetests;
 
 import com.afs.restapi.entity.Company;
 import com.afs.restapi.entity.Employee;

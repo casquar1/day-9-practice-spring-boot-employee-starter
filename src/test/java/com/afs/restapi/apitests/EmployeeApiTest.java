@@ -1,4 +1,4 @@
-package com.afs.restapi;
+package com.afs.restapi.apitests;
 
 import com.afs.restapi.entity.Employee;
 import com.afs.restapi.repository.EmployeeJpaRepository;

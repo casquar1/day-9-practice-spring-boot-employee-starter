@@ -1,4 +1,4 @@
-package com.afs.restapi;
+package com.afs.restapi.servicetests;
 
 import com.afs.restapi.exception.EmployeeCreateException;
 import com.afs.restapi.exception.EmployeeNotFoundException;
