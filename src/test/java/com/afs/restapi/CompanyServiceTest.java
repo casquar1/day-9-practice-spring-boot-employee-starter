@@ -11,11 +11,13 @@ import com.afs.restapi.service.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -74,5 +76,23 @@ public class CompanyServiceTest {
 
         //then
         assertEquals("Company id not found", companyNotFoundException.getMessage());
+    }
+
+    @Test
+    void should_return_updated_company_when_update_given_company_service_company_id_and_new_company_name() {
+        //given
+        Company company = new Company(1L, "Fully Booked");
+        Company updatedCompany = new Company(null, "Book Depository");
+        when(mockedCompanyJpaRepository.findById(company.getId())).thenReturn(Optional.of(company));
+
+        //when
+        companyService.update(company.getId(), updatedCompany);
+
+        //then
+        Mockito.verify(mockedCompanyJpaRepository).save(argThat(tempEmployee -> {
+            assertEquals(company.getId(), tempEmployee.getId());
+            assertEquals(company.getName(), tempEmployee.getName());
+            return true;
+        }));
     }
 }
