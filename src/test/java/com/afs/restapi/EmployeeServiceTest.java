@@ -88,7 +88,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_return_EmployeeNotFoundException_when_findById_given_employee_service_and_not_existing_employee_id() {
+    void should_return_EmployeeNotFoundException_when_findById_given_employee_service_and_invalid_employee_id() {
         //given
         long id = 99L;
 
