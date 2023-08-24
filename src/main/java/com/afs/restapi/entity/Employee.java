@@ -8,6 +8,8 @@ import javax.persistence.Id;
 @Entity
 public class Employee {
 
+    private static final Integer MIN_VALID_AGE = 18;
+    private static final Integer MAX_VALID_AGE = 65;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,6 +28,10 @@ public class Employee {
         this.age = age;
         this.gender = gender;
         this.salary = salary;
+    }
+
+    public boolean hasInvalidAge() {
+        return getAge() < MIN_VALID_AGE || getAge() > MAX_VALID_AGE;
     }
 
     public void setId(Long id) {
